@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>寺院×テック 漫才&ショートコント</title>
+    <title>寺院×テック漫才&ショートコント ver.2</title>
     <style>
         * {
             margin: 0;
@@ -15,7 +15,7 @@
 ```
     body {
         font-family: 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
         min-height: 100vh;
         padding: 20px;
     }
@@ -30,7 +30,7 @@
     }
     
     .header {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
         color: white;
         padding: 40px 30px;
         text-align: center;
@@ -47,6 +47,15 @@
         opacity: 0.95;
     }
     
+    .version {
+        display: inline-block;
+        background: rgba(255,255,255,0.3);
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        margin-top: 10px;
+    }
+    
     .controls {
         background: #f8f9fa;
         padding: 25px 30px;
@@ -59,7 +68,7 @@
     }
     
     .button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
         color: white;
         border: none;
         padding: 15px 40px;
@@ -68,12 +77,12 @@
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
     }
     
     .button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        box-shadow: 0 6px 20px rgba(17, 153, 142, 0.6);
     }
     
     .button:active {
@@ -81,7 +90,7 @@
     }
     
     .button.stop {
-        background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+        background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
     }
     
     .content {
@@ -109,17 +118,17 @@
     }
     
     .dialogue.male {
-        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
         margin-right: 40px;
     }
     
     .dialogue.female {
-        background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+        background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
         margin-left: 40px;
     }
     
     .dialogue.stage {
-        background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+        background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
         text-align: center;
         font-style: italic;
         margin: 30px 0;
@@ -133,15 +142,15 @@
     }
     
     .male .speaker {
-        color: #1976d2;
+        color: #2e7d32;
     }
     
     .female .speaker {
-        color: #c2185b;
+        color: #f57f17;
     }
     
     .stage .speaker {
-        color: #f57c00;
+        color: #00897b;
     }
     
     .text {
@@ -157,21 +166,21 @@
     
     .progress-bar {
         height: 100%;
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
         width: 0%;
         transition: width 0.3s;
     }
     
     .info {
-        background: #e3f2fd;
+        background: #e8f5e9;
         padding: 20px;
         margin: 20px 0;
         border-radius: 10px;
-        border-left: 4px solid #1976d2;
+        border-left: 4px solid #2e7d32;
     }
     
     .info h3 {
-        color: #1976d2;
+        color: #2e7d32;
         margin-bottom: 10px;
     }
     
@@ -197,6 +206,7 @@
         <div class="header">
             <h1>🎭 寺院×テック 漫才&ショートコント</h1>
             <p>40代男性ボケ × 30代女性ツッコミ</p>
+            <div class="version">Version 2.0</div>
         </div>
 
 ```
