@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>マーケット×テック 漫才＆ショートコント</title>
+  <title>寺院×テック 漫才＆ショートコント</title>
 
   <style>
     body {
@@ -18,7 +18,7 @@
     }
 
     .container {
-      max-width: 720px;
+      max-width: 860px;
       width: 100%;
       background: #ffffff;
       border-radius: 20px;
@@ -34,7 +34,8 @@
 
     .subtitle {
       opacity: 0.8;
-      margin-bottom: 30px;
+      margin-bottom: 32px;
+      line-height: 1.6;
     }
 
     .links {
@@ -48,9 +49,10 @@
       color: inherit;
       border: 2px solid #e9ecef;
       border-radius: 16px;
-      padding: 24px;
+      padding: 26px 22px;
       background: #f8f9fa;
       transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      text-align: left;
     }
 
     .card:hover {
@@ -60,7 +62,7 @@
     }
 
     .card h2 {
-      font-size: 1.4em;
+      font-size: 1.3em;
       margin-bottom: 8px;
     }
 
@@ -71,14 +73,20 @@
     }
 
     footer {
-      margin-top: 30px;
+      margin-top: 32px;
       font-size: 0.85em;
       opacity: 0.6;
     }
 
-    @media (min-width: 640px) {
+    @media (min-width: 720px) {
       .links {
         grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .links {
+        grid-template-columns: 1fr 1fr 1fr;
       }
     }
   </style>
@@ -86,10 +94,10 @@
 
 <body>
   <div class="container">
-    <h1>🎭 マーケット×テック<br>漫才＆ショートコント</h1>
+    <h1>🎭 ビジネスを<br>まじめにふざける</h1>
     <div class="subtitle">
-      テック視点で見る「M&A」や「PMI」などを、<br />
-      まじめにふざけて解説します
+      M&A / PMI / PMF を、<br />
+      たとえ話とショートコントで理解するシリーズ
     </div>
 
     <div class="links">
@@ -97,7 +105,7 @@
         <h2>🏯 お寺M&A</h2>
         <p>
           後継者不足のお寺を承継。<br />
-          テック×BPOで回す漫才ネタ
+          テック×BPOで回す漫才
         </p>
       </a>
 
@@ -108,10 +116,18 @@
           KPIとPSIで家庭を統合するショートコント
         </p>
       </a>
+
+      <a class="card" href="c.html">
+        <h2>🚚 移動式恋愛ワゴン × PMF</h2>
+        <p>
+          サービスをミニマムからPMFまで。<br />
+          移動式恋愛ワゴンで例えてみた
+        </p>
+      </a>
     </div>
 
     <footer>
-      ※ 音声・再生は各ページで始まります
+      ※ 再生・音声は各ページで始まります
     </footer>
   </div>
 </body>
