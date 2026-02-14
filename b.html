@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>義実家PMI 漫才 ver.2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+```
+    body {
+        font-family: 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif;
+        background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
+    
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        overflow: hidden;
+    }
+    
+    .header {
+        background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+        color: white;
+        padding: 40px 30px;
+        text-align: center;
+    }
+    
+    .header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .header p {
+        font-size: 1.1em;
+        opacity: 0.95;
+    }
+    
+    .version {
+        display: inline-block;
+        background: rgba(255,255,255,0.3);
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        margin-top: 10px;
+    }
+    
+    .controls {
+        background: #f8f9fa;
+        padding: 25px 30px;
+        border-bottom: 2px solid #e9ecef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .button {
+        background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 30px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(86, 171, 47, 0.4);
+    }
+    
+    .button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(86, 171, 47, 0.6);
+    }
+    
+    .button:active {
+        transform: translateY(0);
+    }
+    
+    .button.stop {
+        background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+    }
+    
+    .content {
+        padding: 30px;
+        max-height: 600px;
+        overflow-y: auto;
+    }
+    
+    .dialogue {
+        margin: 20px 0;
+        padding: 20px;
+        border-radius: 15px;
+        animation: fadeIn 0.6s;
+        transition: all 0.3s;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateX(-20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    
+    .dialogue.active {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .dialogue.male {
+        background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+        margin-right: 40px;
+    }
+    
+    .dialogue.female {
+        background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+        margin-left: 40px;
+    }
+    
+    .dialogue.stage {
+        background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+        text-align: center;
+        font-style: italic;
+        margin: 30px 0;
+    }
+    
+    .speaker {
+        font-weight: bold;
+        font-size: 0.9em;
+        margin-bottom: 8px;
+        opacity: 0.7;
+    }
+    
+    .male .speaker {
+        color: #2e7d32;
+    }
+    
+    .female .speaker {
+        color: #f57f17;
+    }
+    
+    .stage .speaker {
+        color: #00897b;
+    }
+    
+    .text {
+        font-size: 1.1em;
+        line-height: 1.6;
+    }
+    
+    .progress {
+        height: 4px;
+        background: #e9ecef;
+        position: relative;
+    }
+    
+    .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #56ab2f 0%, #a8e063 100%);
+        width: 0%;
+        transition: width 0.3s;
+    }
+    
+    .info {
+        background: #e8f5e9;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 10px;
+        border-left: 4px solid #2e7d32;
+    }
+    
+    .info h3 {
+        color: #2e7d32;
+        margin-bottom: 10px;
+    }
+    
+    @media (max-width: 768px) {
+        .header h1 {
+            font-size: 1.8em;
+        }
+        
+        .dialogue.male {
+            margin-right: 20px;
+        }
+        
+        .dialogue.female {
+            margin-left: 20px;
+        }
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏠 義実家PMI 漫才</h1>
+            <p>40代男性ボケ × 30代女性ツッコミ</p>
+            <div class="version">Version 2.0</div>
+        </div>
+
+```
+    <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <div class="controls">
+        <button class="button" id="playBtn" onclick="playManzai()">▶ 再生開始</button>
+        <button class="button stop" id="stopBtn" onclick="stopManzai()" style="display:none">⏹ 停止</button>
+    </div>
+    
+    <div class="content" id="content">
+        <div class="info">
+            <h3>📝 ネタについて</h3>
+            <p>義実家で同居することになった夫が、「家計の数字」と「家族の気持ち」という2つの視点で家庭運営を語る漫才です。</p>
+            <p><strong>所要時間:</strong> 約3分</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const script = [
+        // 導入
+        { speaker: "male", text: "どうもー！" },
+        { speaker: "female", text: "どうもー！" },
+        { speaker: "male", text: "最近な、妻の実家で同居することになってん" },
+        { speaker: "female", text: "ええやん！家賃浮くし、食費も助かるやん" },
+        { speaker: "male", text: "そう思うやろ？でもな、妻の妹と弟も住んでんねん" },
+        { speaker: "female", text: "急に難易度上がったな" },
+        
+        // 問題提起と用語説明を最初に
+        { speaker: "male", text: "生活費とか家の維持費とか、責任が不明になるやろ" },
+        { speaker: "female", text: "うわ、一番揉めるやつ" },
+        { speaker: "male", text: "そこで俺、会社の経営みたいに数字で管理することにしてん" },
+        { speaker: "female", text: "家庭を？" },
+        { speaker: "male", text: "まず見るのが二つ。家計の数字と、家族の気持ち" },
+        { speaker: "female", text: "ほう" },
+        { speaker: "male", text: "これをな、会社ではケーピーアイとかピーエスアイっていうねん。で、この2つをちゃんと管理することをピーエムアイっていうんや" },
+        { speaker: "female", text: "横文字ばっかりやな" },
+        
+        // 家計の数字の説明
+        { speaker: "male", text: "家計の数字っていうのは、電気代、食費、誰が払うと思ってたかのズレ回数" },
+        { speaker: "female", text: "最後が一番増えそうやな" },
+        { speaker: "male", text: "数字で見ると分かるんや。なんとなくで回してた家ほど赤字や" },
+        { speaker: "female", text: "確かにな" },
+        
+        // 家族の気持ちの説明
+        { speaker: "male", text: "で、もう一個大事なんが家族の気持ちや" },
+        { speaker: "female", text: "ああ、それは大事やな" },
+        { speaker: "male", text: "いくら家賃浮いても、妹がピリついて、弟が無言で、義母がため息ついたら、この家もう終わりや" },
+        { speaker: "female", text: "数字良くても家庭は最悪やな" },
+        
+        // 90日ルール
+        { speaker: "male", text: "だから俺、最初の90日は観測だけにした" },
+        { speaker: "female", text: "改革は？" },
+        { speaker: "male", text: "しない。初日に家事制度変えますって言ったら即追い出されるやろ" },
+        { speaker: "female", text: "義実家は終身雇用ちゃうもんな" },
+        
+        // ITは触らない
+        { speaker: "male", text: "ちなみに90日は家電も触らない" },
+        { speaker: "female", text: "家電？" },
+        { speaker: "male", text: "テレビのリモコン" },
+        { speaker: "female", text: "それ触ったら家族の気持ち一瞬でゼロや" },
+        
+        // まとめ
+        { speaker: "male", text: "結局な、同居ってのは" },
+        { speaker: "female", text: "なんや？" },
+        { speaker: "male", text: "家計の数字で家を見て、家族の気持ちで人を見ることや" },
+        { speaker: "female", text: "家庭で一番難しい経営やん" },
+        
+        // オチ
+        { speaker: "male", text: "今はな、義実家うまく回ってる" },
+        { speaker: "female", text: "おお、成功したんや" },
+        { speaker: "male", text: "ただ一個だけ問題あって" },
+        { speaker: "female", text: "なに？" },
+        { speaker: "male", text: "俺の気持ちだけ、ずっと最悪や" },
+        { speaker: "female", text: "お前が家族に貢献できてないだけや！" },
+        { speaker: "male", text: "もうええわ！" },
+        { speaker: "female", text: "どうもありがとうございましたー！" },
+        { speaker: "male", text: "ありがとうございましたー！" },
+    ];
+
+    let currentIndex = 0;
+    let isPlaying = false;
+    let speechSynth = window.speechSynthesis;
+    
+    const speakerNames = {
+        male: "夫（40代・ボケ）",
+        female: "友人（30代・ツッコミ）",
+        stage: "ト書き"
+    };
+
+    function updateProgress() {
+        const progress = (currentIndex / script.length) * 100;
+        document.getElementById('progressBar').style.width = progress + '%';
+    }
+
+    function displayDialogue(index) {
+        const content = document.getElementById('content');
+        const item = script[index];
+        
+        document.querySelectorAll('.dialogue').forEach(d => d.classList.remove('active'));
+        
+        let dialogue = document.getElementById(`dialogue-${index}`);
+        
+        if (!dialogue) {
+            dialogue = document.createElement('div');
+            dialogue.id = `dialogue-${index}`;
+            dialogue.className = `dialogue ${item.speaker}`;
+            dialogue.innerHTML = `
+                <div class="speaker">${speakerNames[item.speaker]}</div>
+                <div class="text">${item.text}</div>
+            `;
+            content.appendChild(dialogue);
+        }
+        
+        dialogue.classList.add('active');
+        dialogue.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function speak(text, speaker) {
+        return new Promise((resolve) => {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ja-JP';
+            
+            if (speaker === 'male') {
+                utterance.pitch = 0.8;
+                utterance.rate = 1.1;
+            } else if (speaker === 'female') {
+                utterance.pitch = 1.3;
+                utterance.rate = 1.2;
+            } else {
+                utterance.pitch = 1.0;
+                utterance.rate = 0.9;
+            }
+            
+            utterance.onend = () => {
+                setTimeout(resolve, speaker === 'stage' ? 800 : 400);
+            };
+            
+            utterance.onerror = () => {
+                resolve();
+            };
+            
+            speechSynth.speak(utterance);
+        });
+    }
+
+    async function playManzai() {
+        if (isPlaying) return;
+        
+        isPlaying = true;
+        document.getElementById('playBtn').style.display = 'none';
+        document.getElementById('stopBtn').style.display = 'inline-block';
+        
+        if (currentIndex >= script.length) {
+            currentIndex = 0;
+            document.getElementById('content').innerHTML = `
+                <div class="info">
+                    <h3>📝 ネタについて</h3>
+                    <p>義実家で同居することになった夫が、「家計の数字」と「家族の気持ち」という2つの視点で家庭運営を語る漫才です。</p>
+                    <p><strong>所要時間:</strong> 約3分</p>
+                </div>
+            `;
+        }
+        
+        while (currentIndex < script.length && isPlaying) {
+            const item = script[currentIndex];
+            displayDialogue(currentIndex);
+            updateProgress();
+            
+            await speak(item.text, item.speaker);
+            currentIndex++;
+        }
+        
+        if (currentIndex >= script.length) {
+            stopManzai();
+        }
+    }
+
+    function stopManzai() {
+        isPlaying = false;
+        speechSynth.cancel();
+        document.getElementById('playBtn').style.display = 'inline-block';
+        document.getElementById('stopBtn').style.display = 'none';
+        
+        document.querySelectorAll('.dialogue').forEach(d => d.classList.remove('active'));
+    }
+
+    window.addEventListener('beforeunload', () => {
+        speechSynth.cancel();
+    });
+</script>
+```
+
+</body>
+</html>
