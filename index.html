@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>寺院×テック 漫才&ショートコント</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .controls {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        .button:active {
+            transform: translateY(0);
+        }
+        
+        .button.stop {
+            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+        }
+        
+        .content {
+            padding: 30px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .dialogue {
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 15px;
+            animation: fadeIn 0.6s;
+            transition: all 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .dialogue.active {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .dialogue.male {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            margin-right: 40px;
+        }
+        
+        .dialogue.female {
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            margin-left: 40px;
+        }
+        
+        .dialogue.stage {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            text-align: center;
+            font-style: italic;
+            margin: 30px 0;
+        }
+        
+        .speaker {
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            opacity: 0.7;
+        }
+        
+        .male .speaker {
+            color: #1976d2;
+        }
+        
+        .female .speaker {
+            color: #c2185b;
+        }
+        
+        .stage .speaker {
+            color: #f57c00;
+        }
+        
+        .text {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        
+        .progress {
+            height: 4px;
+            background: #e9ecef;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .info {
+            background: #e3f2fd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 4px solid #1976d2;
+        }
+        
+        .info h3 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .dialogue.male {
+                margin-right: 20px;
+            }
+            
+            .dialogue.female {
+                margin-left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎭 寺院×テック 漫才&ショートコント</h1>
+            <p>40代男性ボケ × 30代女性ツッコミ</p>
+        </div>
+        
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="controls">
+            <button class="button" id="playBtn" onclick="playManzai()">▶ 再生開始</button>
+            <button class="button stop" id="stopBtn" onclick="stopManzai()" style="display:none">⏹ 停止</button>
+        </div>
+        
+        <div class="content" id="content">
+            <div class="info">
+                <h3>📝 ネタについて</h3>
+                <p>後継者不足のお寺をM&Aで承継し、テック×BPOで運営効率化する事業アイデアをネタにした漫才です。</p>
+                <p><strong>所要時間:</strong> 約3分</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const script = [
+            // 漫才パート（導入）
+            { speaker: "male", text: "どうもー！" },
+            { speaker: "female", text: "どうもー！" },
+            { speaker: "male", text: "最近ね、すごいビジネス思いついたんですよ" },
+            { speaker: "female", text: "ほう、どんなビジネス？" },
+            { speaker: "male", text: "お寺のM&Aです！" },
+            { speaker: "female", text: "お寺のM&A？何それ" },
+            { speaker: "male", text: "いやー、後継者不足で困ってるお寺多いじゃないですか。だから買収して、テックで効率化するんですよ" },
+            { speaker: "female", text: "ちょっと待って。お寺って買収できるの？" },
+            { speaker: "male", text: "まあ、厳密には宗教法人だから株式とかないんですけどね。運営受託とか事業会社の買収とか、スキームはいろいろあるんですよ" },
+            { speaker: "female", text: "ややこしいわ！で、何をテックで効率化するの？" },
+            { speaker: "male", text: "オンライン護摩です！" },
+            { speaker: "female", text: "オンライン護摩！？" },
+            
+            // ショートコント導入
+            { speaker: "stage", text: "【ショートコント「オンライン護摩、国境を越える」】" },
+            
+            // ショートコント本編
+            { speaker: "male", text: "えー、ただいまよりオンライン護摩の修法に入ります…ゴォォォー…" },
+            { speaker: "female", text: "（海外の観光客トム役）Oh! Very spiritual! Beautiful fire!" },
+            { speaker: "male", text: "（読経しながら）南無三…ゴォォォォー…" },
+            { speaker: "female", text: "Wait wait wait! Why is the fire getting BIGGER!?" },
+            { speaker: "male", text: "（さらに読経）" },
+            { speaker: "female", text: "Oh my God! Is this... terrorism!? Hello, emergency!? There's a fire and a man is chanting!" },
+            { speaker: "male", text: "（外でサイレン音）ウーーー！（読経止めて）え、なんか外すごい騒がしいですね" },
+            { speaker: "female", text: "（通常の声に戻って）あ、警察来ちゃった" },
+            { speaker: "male", text: "なんで！？これ宗教行事ですよ！毎月やってますよ！" },
+            { speaker: "female", text: "だから事前説明が必要なのよ！" },
+            
+            // 漫才に戻る
+            { speaker: "male", text: "確かに…海外の人には誤解されますね" },
+            { speaker: "female", text: "当たり前でしょ！炎上どころか、本物の火で通報されてるじゃない！" },
+            { speaker: "male", text: "だから英語で「This fire is intentional - Religious ritual」って書くんです" },
+            { speaker: "female", text: "「この火は故意です - 宗教儀式」って…順番逆！先に宗教儀式って言わないと！" },
+            { speaker: "male", text: "そうですね。で、証明書PDFも発行して、「Your Goma Ceremony Has Been Completed」と" },
+            { speaker: "female", text: "まあ、ちゃんとシステム化してるのね" },
+            { speaker: "male", text: "はい。お守りの海外発送とか、代理祈祷とか、いろいろあります" },
+            { speaker: "female", text: "代理祈祷？" },
+            { speaker: "male", text: "願意を入力したら、お寺で祈祷して、お札を郵送するんです。証明書PDFもついて" },
+            { speaker: "female", text: "なるほどね。でも本当に効果あるの？" },
+            { speaker: "male", text: "そこは断言しちゃダメなんです！「ご利益保証」とか言ったら炎上しますから" },
+            { speaker: "female", text: "さっきリアル炎上してたでしょうが！" },
+            { speaker: "male", text: "いや、あれは護摩だから…" },
+            { speaker: "female", text: "そういう意味じゃない！" },
+            { speaker: "male", text: "まあとにかく、コンセプトは「Sacred but Accessible」。神聖さは守って、アクセスは広げる" },
+            { speaker: "female", text: "いい言葉ね…って待って！結局僧侶さんの負担増えない？" },
+            { speaker: "male", text: "いや、逆です！僧侶さんは祈祷だけに集中してもらって、受付とか決済とか発送は全部BPOで" },
+            { speaker: "female", text: "BPO？" },
+            { speaker: "male", text: "Business Process Outsourcing。要は外注です。僧侶さんは宗教行為だけ、それ以外はテックで自動化" },
+            { speaker: "female", text: "ああ、なるほど。役割分担するわけね" },
+            { speaker: "male", text: "そうそう！価格は、お守り2千円から、護摩は1万2千円くらいで" },
+            { speaker: "female", text: "海外発送とか通訳入れたらそれくらいかかるか" },
+            { speaker: "male", text: "最終的にはSaaS化して、「Sacred OS」として他のお寺にも提供します" },
+            { speaker: "female", text: "Sacred OS…って、あなた" },
+            { speaker: "male", text: "はい？" },
+            { speaker: "female", text: "自分でお寺やる気ないでしょ" },
+            { speaker: "male", text: "え？" },
+            { speaker: "female", text: "M&Aやってみたいだけで、お寺愛ゼロじゃない！最初に言ってたもん、「M&Aやってみたい」って！" },
+            { speaker: "male", text: "いや、だってM&Aってカッコいいじゃないですか。PMIとか、シナジーとか" },
+            { speaker: "female", text: "動機が不純すぎる！横文字言いたいだけでしょ！" },
+            { speaker: "male", text: "でも後継者不足の問題は本当だし、続けたい人もいるわけで…" },
+            { speaker: "female", text: "まあそれはそうだけど！もうちょっと真面目にやりなさい！神様見てるわよ！" },
+            { speaker: "male", text: "仏様じゃないんですか？" },
+            { speaker: "female", text: "どっちでもいいわ！" },
+            { speaker: "male", text: "はーい" },
+            { speaker: "female", text: "というわけで、以上でした！" },
+            { speaker: "male", text: "ありがとうございましたー！" },
+        ];
+
+        let currentIndex = 0;
+        let isPlaying = false;
+        let speechSynth = window.speechSynthesis;
+        
+        const speakerNames = {
+            male: "男性（40代・ボケ）",
+            female: "女性（30代・ツッコミ）",
+            stage: "ト書き"
+        };
+
+        function updateProgress() {
+            const progress = (currentIndex / script.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function displayDialogue(index) {
+            const content = document.getElementById('content');
+            const item = script[index];
+            
+            // すべての active クラスを削除
+            document.querySelectorAll('.dialogue').forEach(d => d.classList.remove('active'));
+            
+            // 既存のdialogueを探す
+            let dialogue = document.getElementById(`dialogue-${index}`);
+            
+            if (!dialogue) {
+                dialogue = document.createElement('div');
+                dialogue.id = `dialogue-${index}`;
+                dialogue.className = `dialogue ${item.speaker}`;
+                dialogue.innerHTML = `
+                    <div class="speaker">${speakerNames[item.speaker]}</div>
+                    <div class="text">${item.text}</div>
+                `;
+                content.appendChild(dialogue);
+            }
+            
+            dialogue.classList.add('active');
+            dialogue.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function speak(text, speaker) {
+            return new Promise((resolve) => {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ja-JP';
+                
+                // 話者によって声を変える
+                if (speaker === 'male') {
+                    utterance.pitch = 0.8;  // 低め
+                    utterance.rate = 1.1;   // 少し速め
+                } else if (speaker === 'female') {
+                    utterance.pitch = 1.3;  // 高め
+                    utterance.rate = 1.2;   // 速め
+                } else {
+                    utterance.pitch = 1.0;
+                    utterance.rate = 0.9;   // ゆっくり
+                }
+                
+                utterance.onend = () => {
+                    setTimeout(resolve, speaker === 'stage' ? 800 : 400);
+                };
+                
+                utterance.onerror = () => {
+                    resolve();
+                };
+                
+                speechSynth.speak(utterance);
+            });
+        }
+
+        async function playManzai() {
+            if (isPlaying) return;
+            
+            isPlaying = true;
+            document.getElementById('playBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'inline-block';
+            
+            // 最初からやり直す場合
+            if (currentIndex >= script.length) {
+                currentIndex = 0;
+                document.getElementById('content').innerHTML = `
+                    <div class="info">
+                        <h3>📝 ネタについて</h3>
+                        <p>後継者不足のお寺をM&Aで承継し、テック×BPOで運営効率化する事業アイデアをネタにした漫才です。</p>
+                        <p><strong>所要時間:</strong> 約3分</p>
+                    </div>
+                `;
+            }
+            
+            while (currentIndex < script.length && isPlaying) {
+                const item = script[currentIndex];
+                displayDialogue(currentIndex);
+                updateProgress();
+                
+                await speak(item.text, item.speaker);
+                currentIndex++;
+            }
+            
+            if (currentIndex >= script.length) {
+                stopManzai();
+            }
+        }
+
+        function stopManzai() {
+            isPlaying = false;
+            speechSynth.cancel();
+            document.getElementById('playBtn').style.display = 'inline-block';
+            document.getElementById('stopBtn').style.display = 'none';
+            
+            // すべての active クラスを削除
+            document.querySelectorAll('.dialogue').forEach(d => d.classList.remove('active'));
+        }
+
+        // ページ離脱時に音声を停止
+        window.addEventListener('beforeunload', () => {
+            speechSynth.cancel();
+        });
+    </script>
+</body>
+</html>
